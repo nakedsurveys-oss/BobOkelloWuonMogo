@@ -72,7 +72,7 @@ RESET + BASE + FOOTER AT BOTTOM
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 html{
   scroll-behavior:smooth;
-  scroll-padding-top: var(--nav-h); /* Prevents fixed header from covering content */
+  scroll-padding-top: var(--nav-h);
   -webkit-text-size-adjust:100%;
   text-rendering:optimizeLegibility;
 }
@@ -89,7 +89,7 @@ body{
 }
 main{
   position:relative;z-index:1;
-  flex: 1; /* Pushes footer down */
+  flex: 1;
 }
 img{display:block;max-width:100%;height:auto}
 a{color:inherit;text-decoration:none;transition:color .25s}
@@ -391,7 +391,6 @@ RESPONSIVE
 </div>
 <div class="pframe rv">
 <div class="portrait-glow" aria-hidden="true"></div>
-<!-- IMAGE PLACEHOLDER: Add your image to images/hero.jpg -->
 <img src="images/potra.png" alt="Bob Okello Hero Portrait" class="img-slot" loading="eager" onerror="this.style.background='var(--bg-muted)'; this.alt='[CANDIDATE HERO PHOTO]'">
 <div class="seal">
 <div class="dot"></div>
@@ -452,7 +451,6 @@ RESPONSIVE
 <div class="wrap">
 <div class="grid" style="grid-template-columns:.9fr 1.1fr;gap:clamp(28px,5vw,68px);align-items:center">
 <div class="rv">
-<!-- IMAGE PLACEHOLDER: Add your image to images/bio.jpg -->
 <img src="images/profile.png" alt="Bob Okello Biography Photo" class="img-slot bio" loading="lazy" onerror="this.style.background='var(--bg-muted)'; this.alt='[VERIFIED BIOGRAPHY PHOTO]'">
 </div>
 <div>
@@ -554,7 +552,7 @@ RESPONSIVE
 </section>
 <div class="divider"></div>
 
-<!-- ═══════════════════ MEDIA ═══════════════════ -->
+<!-- ═══════════════════ MEDIA PREVIEW (Only a few images) ═══════════════════ -->
 <section class="sec">
 <div class="wrap">
 <div class="shead">
@@ -573,7 +571,6 @@ RESPONSIVE
 <div class="wrap">
 <div class="grid" style="grid-template-columns:auto 1fr;gap:clamp(26px,5vw,64px);align-items:center">
 <div class="rv" style="width:min(250px,62vw)">
-<!-- IMAGE PLACEHOLDER: Add your image to images/artwork.jpg -->
 <img src="images/potrait.png" alt="Campaign Song Artwork" class="img-slot artwork" loading="lazy" onerror="this.style.background='var(--bg-muted)'; this.alt='[CAMPAIGN SONG ARTWORK]'">
 </div>
 <div>
@@ -684,7 +681,9 @@ function baseEvents(){const d=o=>{const x=new Date();x.setDate(x.getDate()+o);re
 {id:'e4',title:'[SAMPLE EVENT 04 — TITLE TO BE SUPPLIED]',date:d(-4),start:'09:00',end:'12:00',loc:'[VENUE 04 — KISUMU WEST]',cat:'health'}];}
 function evStatus(e){const now=new Date(),end=new Date(`${e.date}T${e.end||'23:59'}`);if(now>end)return'pv';return e.date===todayStr()?'td':'up'}
 const STORIES=[];CCATS.forEach(c=>{for(let i=1;i<=3;i++)STORIES.push({id:`${c}${i}`,cat:c,n:i})});
-const GALLERY=Array.from({length:6},(_,i)=>({i,ar:['4/3','3/4','1/1','4/5','3/2','1/1'][i]}));
+
+// UPDATED: Reduced to exactly 3 preview images with varied, elegant aspect ratios
+const GALLERY = Array.from({length: 3}, (_, i) => ({i, ar: ['4/3', '3/4', '1/1'][i]}));
 </script>
 
 <!-- ═══════════════════════════════════════════════════════════════════
@@ -861,9 +860,9 @@ $('#evPrev').innerHTML=evs.map(e=>{const s=evStatus(e);return`<a class="card hov
 <span class="dot" style="background:${s==='td'?'var(--gold-500)':'var(--navy-600)'}"></span>
 <div class="d"><b>${esc(e.title)}</b><small>${fmtD(e.date)} · ${e.start} · ${esc(e.loc)}</small></div>${stTag(s)}</a>`}).join('')||`<p class="lead">${t('empty')}</p>`;
 
-// Media gallery
+// Media gallery: Displays exactly 3 preview images from the images/ folder
 $('#mediaPrev').innerHTML=GALLERY.map(g=>`<a class="card rv" href="media.html">
-<img src="images/media-${g.i+1}.jpg" alt="Campaign Media ${g.i+1}" class="img-slot" loading="lazy" style="--ar:${g.ar}" onerror="this.style.background='var(--bg-muted)'; this.alt='[MEDIA PHOTO]'">
+<img src="images/media-${g.i+1}.png" alt="Campaign Media Preview ${g.i+1}" class="img-slot" loading="lazy" style="--ar:${g.ar}" onerror="this.style.background='var(--bg-muted)'; this.alt='[MEDIA PHOTO]'">
 </a>`).join('');
 
 revealInit();
