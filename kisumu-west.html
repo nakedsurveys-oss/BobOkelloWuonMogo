@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Kisumu West Events & Map | Bob Okello | Wuon Mogo</title>
+<meta name="description" content="Interactive community calendar and event directory for Kisumu West.">
+<meta name="theme-color" content="#062A5C">
+<link rel="icon" href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="14" fill="%23062A5C"/><text x="32" y="45" font-family="Georgia,serif" font-size="36" font-weight="700" fill="%23D9A441" text-anchor="middle">W</text></svg>'>
+
+<script>try{var t=localStorage.getItem('wm_theme')||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');document.documentElement.dataset.theme=t;}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,300;1,9..144,400&family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+/* ═══════════════════════════════════════════════════════════════════
+SHARED TOKENS (Matches existing site identity)
+═══════════════════════════════════════════════════════════════════ */
+:root{
+--navy-950:#02102A;--navy-900:#062A5C;--navy-800:#083B7E;--navy-700:#0A4A9E;
+--navy-600:#0878D1;--navy-500:#1E8FE8;--navy-400:#42B7F5;
+--gold-700:#9A6F1F;--gold-600:#B8862B;--gold-500:#D9A441;--gold-400:#E6BC66;
+--ivory:#F9FAFB;--paper:#FFFFFF;--pearl:#F1F5F9;
+--ink:#071A2B;--ink-2:#243447;--ink-3:#43566B;--ink-4:#64748B;
+--bg-page:var(--ivory);--bg-surface:var(--paper);--bg-muted:var(--pearl);
+--text-primary:var(--ink);--text-secondary:var(--ink-3);--text-tertiary:var(--ink-4);
+--border-hair:rgba(6,42,92,.07);--border-sub:rgba(6,42,92,.11);
+--g-hero:linear-gradient(135deg,#04122B 0%,#062A5C 45%,#083B7E 100%);
+--sh-sm:0 1px 2px rgba(7,26,43,.06),0 2px 8px rgba(7,26,43,.05);
+--dsp:'Fraunces',Georgia,serif;--bd:'Inter',-apple-system,sans-serif;--mono:'JetBrains Mono',ui-monospace,monospace;
+--r-sm:10px;--r-md:14px;--r-full:9999px;
+--ease:cubic-bezier(.16,1,.3,1);
+--nav-h:78px;--wrap:1280px;
+}
+[data-theme="dark"]{
+--bg-page:#03091A;--bg-surface:#081730;--bg-muted:#0A1E3E;
+--text-primary:#F3F7FC;--text-secondary:#B6C6DA;--text-tertiary:#7E93AC;
+--border-hair:rgba(255,255,255,.06);--border-sub:rgba(255,255,255,.10);
+--g-hero:linear-gradient(135deg,#020814 0%,#04122B 45%,#081730 100%);
+--sh-sm:0 2px 6px rgba(0,0,0,.45),0 1px 3px rgba(0,0,0,.3);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+RESET & BASE
+═══════════════════════════════════════════════════════════════════ */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{
+  font:400 16px/1.7 var(--bd);
+  background:var(--bg-page);
+  color:var(--text-primary);
+  -webkit-font-smoothing:antialiased;
+  overflow:hidden; /* Prevents double scrollbars, iframe handles scrolling */
+  transition:background .55s var(--ease),color .45s var(--ease);
+  display:flex;
+  flex-direction:column;
+  height: 100vh;
+}
+main{
+  position:relative;
+  z-index:1;
+  flex:1;
+  display: flex;
+  flex-direction: column;
+}
+a{color:inherit;text-decoration:none;transition:color .25s}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+:focus-visible{outline:2px solid var(--navy-500);outline-offset:3px;border-radius:var(--r-sm)}
+[data-theme="dark"] :focus-visible{outline-color:var(--navy-400)}
+
+/* Header */
+.hdr{
+  position:fixed;
+  inset:0 0 auto;
+  z-index:200;
+  height:var(--nav-h);
+  display:flex;
+  align-items:center;
+  padding:0 clamp(1.25rem,4vw,2.5rem);
+  background:color-mix(in srgb,var(--bg-page) 82%,transparent);
+  backdrop-filter:blur(24px);
+  -webkit-backdrop-filter:blur(24px);
+  border-bottom:1px solid var(--border-hair);
+  transition:all .4s var(--ease);
+}
+.hdr .in{
+  width:min(var(--wrap),100%);
+  margin-inline:auto;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+.brand{display:flex;align-items:center;gap:14px}
+.brand b{font:700 1.1rem var(--dsp);color:var(--text-primary)}
+.brand i{font:500 .6rem var(--mono);font-style:normal;letter-spacing:.18em;text-transform:uppercase;color:var(--gold-600)}
+[data-theme="dark"] .brand i{color:var(--gold-400)}
+.nav-links{display:flex;gap:24px}
+.nav-links a{font:500 .9rem var(--bd);color:var(--text-secondary)}
+.nav-links a:hover{color:var(--navy-600)}
+[data-theme="dark"] .nav-links a:hover{color:var(--navy-400)}
+.ico{
+  width:40px;height:40px;border-radius:11px;
+  display:grid;place-items:center;
+  border:1px solid var(--border-sub);
+  background:var(--bg-surface);color:var(--text-secondary);
+  transition:.25s;
+}
+.ico:hover{border-color:var(--navy-600);color:var(--navy-600);transform:translateY(-2px);box-shadow:var(--sh-sm)}
+[data-theme="dark"] .ico:hover{border-color:var(--navy-400);color:var(--navy-400)}
+
+/* Mobile Nav */
+.mnav{
+  position:fixed;inset:0;z-index:250;
+  background:var(--g-hero);color:#fff;
+  display:flex;flex-direction:column;
+  padding:22px 6vw 36px;
+  transform:translateY(-103%);
+  transition:transform .6s var(--ease);
+  overflow:auto;
+}
+.mnav.open{transform:none}
+.mnav .mt{display:flex;justify-content:space-between;align-items:center;margin-bottom:40px}
+.mnav nav{display:flex;flex-direction:column;gap:8px}
+.mnav nav a{
+  font:500 clamp(28px,6vw,40px)/1.2 var(--dsp);
+  color:#fff;padding:8px 0;
+  border-bottom:1px solid rgba(255,255,255,.1);
+}
+.mnav nav a:hover{color:var(--gold-400)}
+.burger{display:none}
+
+/* Full-Width Embed Container */
+.embed-wrapper{
+  width:100%;
+  height: calc(100vh - var(--nav-h));
+  margin-top: var(--nav-h);
+  position:relative;
+  background:var(--bg-page);
+  transition:background .55s var(--ease);
+}
+.embed-wrapper iframe{
+  width:100%;
+  height:100%;
+  border:none;
+  display:block;
+}
+
+/* Responsive */
+@media(max-width:768px){
+  .nav-links{display:none}
+  .burger{display:grid}
+}
+</style>
+</head>
+<body data-page="kisumu-west">
+
+<header class="hdr" id="hdr">
+  <div class="in">
+    <a href="index.html" class="brand">
+      <b>WUON MOGO</b>
+      <i>Bread Winner · Kisumu West</i>
+    </a>
+    <nav class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="vision.html">Vision</a>
+      <a href="manifesto.html">Manifesto</a>
+      <a href="kisumu-west.html" style="color:var(--navy-600);font-weight:700">Events & Map</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+    <div style="display:flex;align-items:center;gap:8px">
+      <button class="ico" id="themeToggle" aria-label="Toggle theme">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+      </button>
+      <button class="ico burger" id="menuToggle" aria-label="Open menu">
+        <svg width="18" height="18" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h12"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div class="mnav" id="mnav" aria-hidden="true">
+  <div class="mt">
+    <a href="index.html" class="brand" style="color:#fff"><b>WUON MOGO</b><i style="color:var(--gold-400)">Bread Winner</i></a>
+    <button class="ico" id="menuClose" aria-label="Close menu" style="border-color:rgba(255,255,255,.3);background:transparent;color:#fff">
+      <svg width="18" height="18" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+    </button>
+  </div>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="vision.html">Vision</a>
+    <a href="manifesto.html">Manifesto</a>
+    <a href="kisumu-west.html" style="color:var(--gold-400)">Events & Map</a>
+    <a href="contact.html">Contact</a>
+  </nav>
+</div>
+
+<main id="app" tabindex="-1">
+  <!-- Full-Width Embedded App -->
+  <div class="embed-wrapper">
+    <iframe 
+      src="https://bobokelloevents.lovable.app" 
+      title="Kisumu West Events and Map Application" 
+      loading="eager" 
+      allow="fullscreen; geolocation"
+      sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
+    ></iframe>
+  </div>
+</main>
+
+<!-- ═══════════════════════════════════════════════════════════════════
+SITE LOGIC
+═══════════════════════════════════════════════════════════════════ -->
+<script>
+'use strict';
+const $=(s,r=document)=>r.querySelector(s);
+
+// Theme Toggle
+const themeToggle = $('#themeToggle');
+themeToggle.addEventListener('click', () => {
+  const current = document.documentElement.dataset.theme;
+  const next = current === 'dark' ? 'light' : 'dark';
+  document.documentElement.dataset.theme = next;
+  localStorage.setItem('wm_theme', next);
+});
+
+// Mobile Menu
+const menuToggle = $('#menuToggle');
+const menuClose = $('#menuClose');
+const mnav = $('#mnav');
+
+menuToggle.addEventListener('click', () => {
+  mnav.classList.add('open');
+  mnav.setAttribute('aria-hidden', 'false');
+  document.body.style.overflow = 'hidden';
+});
+
+menuClose.addEventListener('click', () => {
+  mnav.classList.remove('open');
+  mnav.setAttribute('aria-hidden', 'true');
+  document.body.style.overflow = '';
+});
+</script>
+</body>
+</html>
