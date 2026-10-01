@@ -67,6 +67,55 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 [data-theme="dark"] :focus-visible{outline-color:var(--navy-400)}
 .skip{position:fixed;left:14px;top:-70px;z-index:300;background:var(--navy-900);color:#fff;padding:11px 18px;border-radius:10px;font-weight:600;font-size:.875rem;transition:top .2s}.skip:focus{top:14px}
 
+/* ═══════════════════════════════════════════════════════════════════
+PAGE LOADER
+═══════════════════════════════════════════════════════════════════ */
+.page-loader{
+  position:fixed;inset:0;z-index:9999;
+  background:var(--bg-page);
+  display:flex;align-items:center;justify-content:center;
+  transition:opacity .6s var(--ease),visibility .6s;
+}
+.page-loader.loaded{opacity:0;visibility:hidden;pointer-events:none}
+.loader-content{text-align:center}
+.loader-brand{
+  font:700 2rem var(--dsp);
+  color:var(--text-primary);
+  letter-spacing:-.02em;
+  margin-bottom:8px;
+  animation:fadeInUp .8s var(--ease-expo);
+}
+.loader-tagline{
+  font:500 .75rem var(--mono);
+  color:var(--gold-500);
+  letter-spacing:.2em;
+  text-transform:uppercase;
+  margin-bottom:32px;
+  animation:fadeInUp .8s var(--ease-expo) .1s both;
+}
+.loader-bar{
+  width:120px;height:3px;
+  background:var(--border-hair);
+  border-radius:2px;
+  overflow:hidden;
+  margin:0 auto;
+  animation:fadeInUp .8s var(--ease-expo) .2s both;
+}
+.loader-progress{
+  width:100%;height:100%;
+  background:var(--g-gold);
+  border-radius:2px;
+  animation:loadProgress 1.2s var(--ease-expo) forwards;
+}
+@keyframes loadProgress{
+  0%{transform:translateX(-100%)}
+  100%{transform:translateX(0)}
+}
+@keyframes fadeInUp{
+  from{opacity:0;transform:translateY(20px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
 /* Ambient Background */
 .ambient{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
 .ambient::before{content:"";position:absolute;inset:0;background:var(--g-mesh);opacity:.95;transition:opacity .5s}
@@ -107,13 +156,14 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .lang button.on{background:var(--navy-900);color:#fff}
 .burger{display:none}
 
+/* Mobile Nav - Enhanced to match index.html */
 .mnav{position:fixed;inset:0;z-index:250;background:var(--g-hero);color:#fff;display:flex;flex-direction:column;padding:22px 6vw 36px;transform:translateY(-103%);transition:transform .6s var(--ease-expo);overflow:auto;box-shadow:0 30px 60px -20px rgba(0,0,0,.5)}
 .mnav::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 20% 10%,rgba(66,183,245,.22),transparent 50%),radial-gradient(ellipse at 80% 90%,rgba(217,164,65,.12),transparent 50%);pointer-events:none}
 .mnav.open{transform:none}
 .mnav::after{content:"WUON MOGO";position:absolute;bottom:-5vw;left:-2vw;font:700 28vw/1 var(--dsp);color:rgba(255,255,255,.04);letter-spacing:-.03em;pointer-events:none;z-index:0}
 .mnav .mt{display:flex;justify-content:space-between;align-items:center;position:relative;z-index:2}
 .mnav nav{margin-top:7vh;display:flex;flex-direction:column;gap:2px;position:relative;z-index:2}
-.mnav nav a{font:500 clamp(28px,7.2vw,44px)/1.25 var(--dsp);color:#fff;display:flex;gap:18px;align-items:baseline;padding:14px 4px;opacity:0;transform:translateY(24px);transition:opacity .6s var(--ease-expo),transform .6s var(--ease-expo),color .25s;border-bottom:1px solid rgba(255,255,255,.08)}
+.mnav nav a{font:500 clamp(28px,7.2vw,44px)/1.25 var(--dsp);color:#fff;display:flex;gap:18px;align-items:baseline;padding:14px 4px;opacity:0;transform:translateY(24px);transition:opacity .6s var(--ease-expo),transform .6s var(--ease-expo),color .25s;border-bottom:1px solid rgba(255,255,255,.08);text-decoration:none}
 .mnav.open nav a{opacity:1;transform:none}
 .mnav nav a small{font:500 .6rem var(--mono);color:var(--gold-400);letter-spacing:.22em}
 .mnav nav a:hover{color:var(--gold-400);padding-left:12px}
@@ -149,6 +199,16 @@ MEDIA PAGE SPECIFIC
 .h2 .it{font-style:italic;font-weight:300;color:var(--navy-600)}
 [data-theme="dark"] .h2 .it{color:var(--gold-400)}
 .lead{color:var(--text-secondary);font-size:1.0625rem;max-width:64ch;line-height:1.8;letter-spacing:-.005em}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:11px;font:600 .95rem/1 var(--bd);padding:16px 28px;border-radius:var(--r-full);border:1px solid transparent;transition:all .35s var(--ease);white-space:nowrap;min-height:54px;letter-spacing:-.005em;position:relative;overflow:hidden}
+.btn::before{content:"";position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.18),transparent 60%);opacity:0;transition:opacity .35s;pointer-events:none}
+.btn:hover::before{opacity:1}.btn .ar{transition:transform .35s var(--ease)}.btn:hover .ar{transform:translateX(4px)}.btn:active{transform:translateY(0) scale(.98)}
+.btn-p{background:var(--g-royal);color:#fff;box-shadow:var(--sh-lg),var(--sh-blue),inset 0 1px 0 rgba(255,255,255,.15)}
+.btn-p:hover{transform:translateY(-3px);box-shadow:var(--sh-xl),var(--sh-blue)}
+.btn-gold{background:var(--g-gold);color:#241703;box-shadow:var(--sh-gold),inset 0 1px 0 rgba(255,255,255,.25);font-weight:700}
+.btn-gold:hover{transform:translateY(-3px);box-shadow:0 22px 44px -10px rgba(217,164,65,.55)}
+.btn.sm{padding:11px 20px;font-size:.85rem;min-height:auto;border-radius:11px}
 
 /* Hero */
 .media-hero{
@@ -421,29 +481,47 @@ MEDIA PAGE SPECIFIC
 .video-card .info h4{font:500 1.1rem var(--dsp);letter-spacing:-.01em;margin-bottom:4px}
 .video-card .info .dur{font:500 .7rem var(--mono);color:rgba(255,255,255,.7)}
 
-/* Community Archive Strip */
+/* Community Archive Strip - Enhanced with Auto-Scroll */
 .community-strip{
   padding:clamp(60px,8vw,100px) 0;
   background:var(--bg-muted);
   overflow:hidden;
+  position:relative;
 }
+.community-strip::before,
+.community-strip::after{
+  content:"";position:absolute;top:0;bottom:0;width:100px;z-index:2;pointer-events:none;
+}
+.community-strip::before{left:0;background:linear-gradient(90deg,var(--bg-muted),transparent)}
+.community-strip::after{right:0;background:linear-gradient(270deg,var(--bg-muted),transparent)}
+
 .strip-scroll{
-  display:flex;gap:20px;overflow-x:auto;
-  padding:20px 0;scroll-snap-type:x mandatory;
-  -ms-overflow-style:none;scrollbar-width:none;
+  display:flex;gap:20px;
+  padding:20px 0;
+  animation:scrollStrip 40s linear infinite;
 }
-.strip-scroll::-webkit-scrollbar{display:none}
+.strip-scroll:hover{animation-play-state:paused}
+
 .strip-item{
-  flex:0 0 300px;scroll-snap-align:start;
+  flex:0 0 300px;
   position:relative;border-radius:var(--r-md);overflow:hidden;
   aspect-ratio:3/4;background:var(--bg-surface);
+  transition:transform .4s var(--ease);
 }
-.strip-item img{width:100%;height:100%;object-fit:cover}
+.strip-item:hover{transform:translateY(-8px) scale(1.02)}
+.strip-item img{width:100%;height:100%;object-fit:cover;transition:transform .6s var(--ease)}
+.strip-item:hover img{transform:scale(1.05)}
 .strip-item .label{
   position:absolute;top:16px;left:16px;
   font:700 .6rem var(--mono);letter-spacing:.15em;text-transform:uppercase;
-  background:rgba(255,255,255,.9);color:var(--navy-900);
+  background:rgba(255,255,255,.95);color:var(--navy-900);
   padding:6px 12px;border-radius:var(--r-xs);
+  box-shadow:0 2px 8px rgba(0,0,0,.1);
+}
+
+@keyframes scrollStrip{
+  0%{transform:translateX(0)}
+  100%{transform:translateX(calc(-300px * 4 - 20px * 4))}
 }
 
 /* Timeline */
@@ -577,16 +655,29 @@ MEDIA PAGE SPECIFIC
   .grid-item.span-2-col, .grid-item.span-2-row, .grid-item.span-wide{grid-column:span 1;grid-row:span 1}
   .media-controls{flex-direction:column;align-items:stretch}
   .search-box{min-width:100%}
-  .lb-nav{display:none} /* Touch swipe preferred on mobile */
+  .lb-nav{display:none}
 }
 @media(prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:.001s!important;animation-iteration-count:1!important;transition-duration:.001s!important}
   html{scroll-behavior:auto}
   .grid-item img, .story-card .img-wrap img, .video-card img{transition:none}
+  .strip-scroll{animation:none}
 }
 </style>
 </head>
 <body data-page="media">
+
+<!-- PAGE LOADER -->
+<div class="page-loader" id="pageLoader">
+  <div class="loader-content">
+    <div class="loader-brand">WUON MOGO</div>
+    <div class="loader-tagline">Bread Winner</div>
+    <div class="loader-bar">
+      <div class="loader-progress"></div>
+    </div>
+  </div>
+</div>
+
 <a class="skip" href="#app">Skip to content</a>
 
 <div class="ambient" aria-hidden="true"><div class="orb orb-1"></div><div class="orb orb-2"></div></div>
@@ -717,12 +808,29 @@ MEDIA PAGE SPECIFIC
     </div>
   </section>
 
-  <!-- COMMUNITY ARCHIVE STRIP -->
+  <!-- COMMUNITY ARCHIVE STRIP - Auto-Scrolling Carousel -->
   <section class="community-strip">
     <div class="wrap">
       <div class="kick" style="margin-bottom:24px">COMMUNITY MOMENTS</div>
     </div>
     <div class="strip-scroll">
+      <div class="strip-item">
+        <img src="images/donating jersey.png" alt="Community 1" onerror="this.parentElement.classList.add('img-missing')">
+        <div class="label">COMMUNITY</div>
+      </div>
+      <div class="strip-item">
+        <img src="images/with security.png" alt="Community 2" onerror="this.parentElement.classList.add('img-missing')">
+        <div class="label">ENGAGEMENT</div>
+      </div>
+      <div class="strip-item">
+        <img src="images/talking.png" alt="Community 3" onerror="this.parentElement.classList.add('img-missing')">
+        <div class="label">DIALOGUE</div>
+      </div>
+      <div class="strip-item">
+        <img src="images/standing.png" alt="Community 4" onerror="this.parentElement.classList.add('img-missing')">
+        <div class="label">ACTION</div>
+      </div>
+      <!-- Duplicated for seamless loop -->
       <div class="strip-item">
         <img src="images/donating jersey.png" alt="Community 1" onerror="this.parentElement.classList.add('img-missing')">
         <div class="label">COMMUNITY</div>
@@ -1035,6 +1143,11 @@ window.addEventListener('load', () => {
   setLang(state.lang);
   renderGrid();
   renderTimeline();
+  
+  // Hide loader after content is ready
+  setTimeout(() => {
+    $('#pageLoader').classList.add('loaded');
+  }, 1200);
 });
 
 document.addEventListener('click', e => {
