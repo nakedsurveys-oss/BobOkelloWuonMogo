@@ -153,25 +153,72 @@ HEADER
 .burger{display:none}
 
 /* ═══════════════════════════════════════════════════════════════════
-MOBILE NAV
+MOBILE NAV (Premium Full-Screen Overlay)
 ═══════════════════════════════════════════════════════════════════ */
-.mnav{position:fixed;inset:0;z-index:250;background:var(--g-hero);color:#fff;display:flex;flex-direction:column;padding:22px 6vw 36px;transform:translateY(-103%);transition:transform .6s var(--ease-expo);overflow:auto;box-shadow:0 30px 60px -20px rgba(0,0,0,.5)}
-.mnav::before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 20% 10%,rgba(66,183,245,.22),transparent 50%),radial-gradient(ellipse at 80% 90%,rgba(217,164,65,.12),transparent 50%);pointer-events:none}
-.mnav.open{transform:none}
-.mnav::after{content:"WUON MOGO";position:absolute;bottom:-5vw;left:-2vw;font:700 28vw/1 var(--dsp);color:rgba(255,255,255,.04);letter-spacing:-.03em;pointer-events:none;z-index:0}
-.mnav .mt{display:flex;justify-content:space-between;align-items:center;position:relative;z-index:2}
-.mnav nav{margin-top:7vh;display:flex;flex-direction:column;gap:2px;position:relative;z-index:2}
-.mnav nav a{font:500 clamp(28px,7.2vw,44px)/1.25 var(--dsp);color:#fff;display:flex;gap:18px;align-items:baseline;padding:14px 4px;opacity:0;transform:translateY(24px);transition:opacity .6s var(--ease-expo),transform .6s var(--ease-expo),color .25s;border-bottom:1px solid rgba(255,255,255,.08)}
-.mnav.open nav a{opacity:1;transform:none}
-.mnav nav a small{font:500 .6rem var(--mono);color:var(--gold-400);letter-spacing:.22em}
-.mnav nav a:hover{color:var(--gold-400);padding-left:12px}
-.mnav nav a.on{color:var(--gold-400)}
-.mnav nav a.on small::before{content:"● ";color:var(--gold-400)}
-.mnav .mf{margin-top:auto;display:flex;gap:10px;flex-wrap:wrap;align-items:center;padding-top:30px;position:relative;z-index:2}
-.mnav .lang{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.2)}
-.mnav .lang button{color:rgba(255,255,255,.75)}
-.mnav .lang button.on{background:#fff;color:var(--navy-900)}
-.mnav .ico{border-color:rgba(255,255,255,.25);background:rgba(255,255,255,.08);color:#fff}
+.mnav{
+  position:fixed; inset:0; z-index:250;
+  display:flex; flex-direction:column; justify-content:center;
+  padding:calc(var(--nav-h) + 2rem) clamp(1.5rem, 6vw, 3rem) calc(2rem + env(safe-area-inset-bottom));
+  background:
+    radial-gradient(120% 90% at 88% -10%, rgba(8,59,126,.6), transparent 55%),
+    linear-gradient(168deg, var(--navy-800) 0%, var(--navy-950) 72%);
+  opacity:0; visibility:hidden;
+  transition:opacity .45s var(--ease-expo), visibility .45s;
+  overflow-y:auto;
+  -webkit-overflow-scrolling:touch;
+}
+.mnav.open{ opacity:1; visibility:visible; }
+
+/* Hide original top bar and giant background text for cleaner premium look */
+.mnav .mt{ display:none; }
+.mnav::after{ display:none; }
+.mnav::before{ display:none; }
+
+.mnav nav{
+  margin:0; padding:0;
+  display:flex; flex-direction:column;
+  position:relative; z-index:2;
+}
+.mnav nav a{
+  display:flex; align-items:baseline; gap:1.2rem;
+  padding:1.1rem .2rem; min-height:64px;
+  border-bottom:1px solid rgba(66,183,245,.12);
+  font:500 clamp(1.8rem, 7vw, 2.8rem)/1.1 var(--dsp);
+  color:#fff; text-decoration:none;
+  opacity:0; transform:translateY(20px);
+  transition:opacity .5s var(--ease-expo), transform .5s var(--ease-expo), color .25s, padding-left .25s;
+  /* JS injects inline transition-delay for stagger */
+}
+.mnav.open nav a{ opacity:1; transform:none; }
+
+.mnav nav a small{
+  font:500 .7rem/1 var(--mono); letter-spacing:.22em; color:var(--gold-400);
+  min-width:2.5rem;
+}
+.mnav nav a:hover{ color:var(--gold-400); padding-left:12px; }
+.mnav nav a.on{ color:var(--gold-400); }
+.mnav nav a.on small::before{ content:"● "; }
+
+.mnav .mf{
+  margin-top:2.5rem; padding-top:2rem; border-top:1px solid rgba(255,255,255,.08);
+  display:flex; flex-wrap:wrap; align-items:center; gap:1rem;
+  position:relative; z-index:2;
+  opacity:0; transform:translateY(15px);
+  transition:opacity .5s var(--ease-expo), transform .5s var(--ease-expo);
+  transition-delay:0ms;
+}
+.mnav.open .mf{ opacity:1; transform:none; transition-delay:.55s; }
+
+.mnav .lang{ background:rgba(255,255,255,.06); border-color:rgba(255,255,255,.15); }
+.mnav .lang button{ color:rgba(255,255,255,.7); }
+.mnav .lang button.on{ background:#fff; color:var(--navy-900); }
+.mnav .ico{ border-color:rgba(255,255,255,.2); background:rgba(255,255,255,.06); color:#fff; }
+
+/* Premium Burger Animation */
+.burger svg path { transition: transform .35s var(--ease-expo), opacity .35s; transform-origin: center; }
+.burger[aria-expanded="true"] svg path:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+.burger[aria-expanded="true"] svg path:nth-child(2) { opacity: 0; }
+.burger[aria-expanded="true"] svg path:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
 
 /* ═══════════════════════════════════════════════════════════════════
 LAYOUT & TYPE
@@ -862,7 +909,7 @@ $('#evPrev').innerHTML=evs.map(e=>{const s=evStatus(e);return`<a class="card hov
 
 // Media gallery: Displays exactly 3 preview images from the images/ folder
 $('#mediaPrev').innerHTML=GALLERY.map(g=>`<a class="card rv" href="media.html">
-<img src="images/media-${g.i+1}.png" alt="Campaign Media Preview ${g.i+1}" class="img-slot" loading="lazy" style="--ar:${g.ar}" onerror="this.style.background='var(--bg-muted)'; this.alt='[MEDIA PHOTO]'">
+<img src="images/donating jersey.png" alt="Campaign Media Preview ${g.i+1}" class="img-slot" loading="lazy" style="--ar:${g.ar}" onerror="this.style.background='var(--bg-muted)'; this.alt='[MEDIA PHOTO]'">
 </a>`).join('');
 
 revealInit();
